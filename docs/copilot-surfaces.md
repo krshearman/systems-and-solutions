@@ -8,10 +8,11 @@ do not imply identical tools, permissions, discovery, or orchestration.
 
 | Surface | Repository customizations | Handoffs | Verification in this repository |
 | --- | --- | --- | --- |
-| VS Code with GitHub Copilot | Repository agents and skills are documented features. Select `architect-agent` or `refactor-guard` in the agent picker. Refactor guard also needs permission to execute its checks. | VS Code documents `handoffs` suggestions. None are configured here. | See the maintainer report below; refactor guard live execution is pending. |
-| GitHub Copilot CLI | Repository agents and skills are documented features. Start in the repository and select the desired custom agent using the CLI's agent picker. Refactor guard also needs permission to execute its checks. | No CLI handoff behavior is assumed by this repository. | See the maintainer report below; refactor guard live execution is pending. |
-| Copilot coding agent on GitHub.com (called cloud agent in current docs) | GitHub's documented picker discovery flow requires merging a new repository agent profile into the default branch. Task evidence and fixtures must also be available on the selected starting branch, with access and repository configuration permitting execution. | GitHub documents that VS Code `handoffs` are ignored by the cloud agent. | See the maintainer report below; refactor guard live execution is pending. |
-| GitHub Actions running a future Copilot SDK application | Planned, not implemented. An SDK application must explicitly configure its instructions, tools, and coordination; this repository does not assume automatic discovery of these files. | Application-controlled orchestration, not editor handoff buttons. | No SDK application exists yet. |
+| VS Code with GitHub Copilot | Repository agents and skills are documented features. Select `architect-agent` or `refactor-guard` in the agent picker. Refactor guard also needs permission to execute its checks. | VS Code documents `handoffs` suggestions. None are configured here. | See the maintainer report below; detailed per-surface records are not supplied. |
+| GitHub Copilot CLI | Repository agents and skills are documented features. Start in the repository and select the desired custom agent using the CLI's agent picker. Refactor guard also needs permission to execute its checks. | No CLI handoff behavior is assumed by this repository. | See the maintainer report below; detailed per-surface records are not supplied. |
+| Copilot coding agent on GitHub.com (called cloud agent in current docs) | GitHub's documented picker discovery flow requires merging a new repository agent profile into the default branch. Task evidence and fixtures must also be available on the selected starting branch, with access and repository configuration permitting execution. | GitHub documents that VS Code `handoffs` are ignored by the cloud agent. | See the maintainer report below; detailed per-surface records are not supplied. |
+| Local Python application using Copilot SDK | The incident CLI explicitly supplies its instructions and schema in an isolated, tool-free SDK session. It does not discover or invoke the repository agent profiles or skills. | None; the application owns the request lifecycle. | Local synthetic-log smoke run completed on macOS/Python 3.13.2 with SDK 1.0.22 and gpt-5-mini. |
+| GitHub Actions running an SDK application | The PR summarizer remains planned. CI tests the incident adapter with mocks and installed SDK signatures, without calling a model. An eventual model-calling job needs explicit authentication and data handling. | Application-controlled orchestration, not editor handoff buttons. | Live model inference in Actions is not implemented or verified. |
 
 This matrix covers only the intended surfaces for this showcase, not every
 product that supports skills. It records documentation-based capabilities, not
@@ -23,6 +24,13 @@ surface names, versions, and run evidence were not supplied in this session,
 so this guide does not assign that report to individual rows. The earlier
 manual skill fallback remains a historical observation, not a claim that
 native loading fails everywhere.
+
+The maintainer subsequently marked refactor guard verified across multiple
+surfaces in the README. A local CLI canvas snapshot confirmed the selected
+agent, and independent checks confirmed the approved final workspace; that
+snapshot did not retain the earlier prompt/action history. The incident SDK
+observation is documented separately in its
+[walkthrough](examples/incident-postmortem-walkthrough.md).
 
 ## Portable baseline and limitations
 

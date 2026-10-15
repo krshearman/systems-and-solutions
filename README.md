@@ -13,7 +13,7 @@ approval.
 | [ADR skill](.github/skills/architectural-decision-record/SKILL.md) | Verified across multiple surfaces | On-demand instructions, a reusable template, and proposed decision records |
 | [Refactor guard](.github/agents/refactor-guard.agent.md) | Verified across multiple surfaces| Scoped Python modernization, behavioral contracts, and a deterministic change gate |
 | PR impact and security summarizer | Planned | Copilot SDK automation, explained risk scoring, and GitHub review integration |
-| Incident post-mortem CLI | Planned | Evidence-linked timelines and executive-ready draft reports |
+| [Incident post-mortem CLI](docs/examples/incident-postmortem-walkthrough.md) | Implemented; local SDK smoke run completed | Text/JSONL ingestion, deterministic timelines, cited SDK analysis, and explicit failure handling |
 
 The current showcase has two specialized agents and a reusable ADR skill.
 Transitions between agents are manual, **not yet automated multi-agent
@@ -74,6 +74,36 @@ The [CI workflow](.github/workflows/ci.yml) runs the deterministic checks on
 Python 3.11 and 3.13. It makes no model calls and does not verify live agent
 behavior.
 
+## Generate an incident post-mortem
+
+The Python CLI accepts timestamped text or JSON Lines and creates an
+evidence-linked executive draft. Unlike the bounded refactor example, it can
+process your own logs in its documented formats. It never invents timeline
+events: timestamps, source-line IDs, and a file fingerprint come from the input.
+
+Start without model access or dependencies:
+
+```sh
+mkdir -p reports
+python3 -B -m automation.incident_postmortem \
+  --input examples/incident_response/service-incident.txt \
+  --format text \
+  --output reports/incident-evidence.md \
+  --offline
+```
+
+For SDK-generated analysis, install the pinned optional dependency and follow
+the [incident walkthrough](docs/examples/incident-postmortem-walkthrough.md).
+Sending logs requires an explicit model choice and `--allow-model-upload`.
+Sanitize and approve data first: there is no automatic redaction.
+
+The SDK receives only parsed evidence in a tool-free, isolated session, not
+this repository's agents or personal plugins. Reports separate observations
+from unverified hypotheses and proposed actions, remain unapproved, and are
+never published automatically. Valid citations do not guarantee factual
+accuracy. Outputs are never overwritten, and model failures do not silently
+become offline reports.
+
 ## Design and boundaries
 
 The [engineering guidelines](docs/engineering-guidelines.md) define this
@@ -83,5 +113,7 @@ certify compliance, or publish reviews.
 
 Agent instructions are behavioral boundaries, not a security sandbox. Tool
 permissions and human review remain necessary. Worked examples are synthetic,
-not claims of production use. Architecture/ADR live verification was reported
-by the maintainer; refactor guard's live custom-agent execution remains pending.
+not claims of production use. Architecture/ADR and refactor-guard surface
+verification were reported by the maintainer. The incident tool's local SDK
+smoke run uses only bundled synthetic evidence; broader model and platform
+compatibility is not claimed.

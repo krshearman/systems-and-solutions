@@ -1,0 +1,4 @@
+2026-10-15T09:03:00Z INFO Synthetic checkout probe returned HTTP 200.
+2026-10-15T09:00:00Z INFO Synthetic deployment rollout started for checkout-demo.
+2026-10-15T09:01:00Z ERROR Synthetic checkout probe returned HTTP 503.
+2026-10-15T09:02:00Z WARN Synthetic rollback requested; completion is not recorded.

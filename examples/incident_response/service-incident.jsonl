@@ -1,0 +1,4 @@
+{"timestamp":"2026-10-15T09:03:00Z","level":"INFO","message":"Synthetic checkout probe returned HTTP 200."}
+{"timestamp":"2026-10-15T09:00:00Z","level":"INFO","message":"Synthetic deployment rollout started for checkout-demo."}
+{"timestamp":"2026-10-15T09:01:00Z","level":"ERROR","message":"Synthetic checkout probe returned HTTP 503."}
+{"timestamp":"2026-10-15T09:02:00Z","level":"WARN","message":"Synthetic rollback requested; completion is not recorded."}
