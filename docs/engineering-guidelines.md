@@ -46,7 +46,7 @@ Documentation-based support and live verification are different evidence.
 Do not advertise orchestration before demonstrating an actual coordination
 mechanism.
 
-For future SDK tools, keep parsing, scoring, validation, and rendering testable
+For SDK tools, keep parsing, scoring, validation, and rendering testable
 without model calls. Validate generated output before writing reports or posting
 reviews. Report authentication errors, invalid output, and unavailable evidence
 explicitly rather than returning success-shaped fallback results.
