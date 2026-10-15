@@ -19,6 +19,7 @@ from automation.review_team.contracts import (
 from automation.review_team.runtime import (
     PROFILE_NAMES, coordinator_prompt, digest, read_profiles, run_team, sdk_runner,
 )
+from automation.review_team.report import render_report
 from automation.sdk import SdkError
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -158,6 +159,9 @@ class ContractTests(unittest.TestCase):
             self.assertFalse(profile.instructions.startswith("---"))
             self.assertEqual(len(profile.sha256), 64)
             self.assertIn("tools: []", (ROOT / profile.path).read_text())
+        for role in ROLES:
+            self.assertIn("(evidence, category) pair", profiles[role].instructions)
+            self.assertIn("wording-only", profiles[role].instructions)
 
 
 class RuntimeTests(unittest.IsolatedAsyncioTestCase):
@@ -167,6 +171,57 @@ class RuntimeTests(unittest.IsolatedAsyncioTestCase):
         self.profiles = read_profiles()
         self.data = read_object(REPLAY)
         self.names = {name: role for role, name in PROFILE_NAMES.items()}
+
+    async def test_one_line_documentation_change_can_finish_with_no_findings(self):
+        data = read_object(SNAPSHOT)
+        data["files"] = data["files"][:1]
+        data["files"][0].update(
+            filename="README.md", status="modified", additions=1, deletions=1,
+            patch="@@ -3 +3 @@\n-A synthetic portfolio.\n+A synthetic engineering portfolio.",
+        )
+        snapshot = snapshot_from_dict(data)
+        budgets = {}
+
+        async def runner(profile, _prompt, schema):
+            role = self.names[profile.name]
+            await asyncio.sleep(0)
+            if role in ROLES:
+                budgets[role] = schema["properties"]["findings"]["maxItems"]
+                return json.dumps({
+                    "overview": [{"statement": "Rewords a portfolio description.", "files": ["F1"]}],
+                    "findings": [],
+                })
+            self.assertEqual(schema["properties"]["priorities"]["maxItems"], 0)
+            return json.dumps({
+                "summary": [{"statement": "Both specialists observed a wording change.",
+                             "sources": ["AO1", "SO1"]}],
+                "priorities": [], "disagreements": [],
+                "human_review_questions": ["Does the wording reflect the intended description?"],
+            })
+
+        result = await run_team(snapshot, self.guidelines, self.profiles, runner)
+        self.assertEqual(budgets, {"architecture": 2, "security": 1})
+        self.assertEqual(result.coordinator.priorities, ())
+        report = render_report(snapshot, self.guidelines, result, self.profiles, "example-model")
+        self.assertIn("No source findings supplied", report)
+        self.assertIn("not an assurance of safety", report)
+        self.assertEqual(result.trace[-1].state, "validated")
+
+    async def test_duplicate_specialist_findings_are_not_silently_dropped(self):
+        calls = []
+        self.data["architecture"]["findings"].append(
+            deepcopy(self.data["architecture"]["findings"][0])
+        )
+
+        async def runner(profile, _prompt, _schema):
+            role = self.names[profile.name]
+            calls.append(role)
+            await asyncio.sleep(0)
+            return json.dumps(self.data[role])
+
+        with self.assertRaisesRegex(ReviewError, r"Duplicate finding.*F1:L2, architecture"):
+            await run_team(self.snapshot, self.guidelines, self.profiles, runner)
+        self.assertNotIn("coordinator", calls)
 
     async def test_real_fanout_barrier_precedes_validated_fanin(self):
         entered, completed = set(), set()

@@ -12,7 +12,7 @@ do not imply identical tools, permissions, discovery, or orchestration.
 | GitHub Copilot CLI | Repository agents and skills are documented features. Start in the repository and select the desired custom agent using the CLI's agent picker. Refactor guard also needs permission to execute its checks. | No CLI handoff behavior is assumed by this repository. | See the maintainer report below; detailed per-surface records are not supplied. |
 | Copilot coding agent on GitHub.com (called cloud agent in current docs) | GitHub's documented picker discovery flow requires merging a new repository agent profile into the default branch. Task evidence and fixtures must also be available on the selected starting branch, with access and repository configuration permitting execution. | GitHub documents that VS Code `handoffs` are ignored by the cloud agent. | See the maintainer report below; detailed per-surface records are not supplied. |
 | Local Python application using Copilot SDK | Incident and single-agent PR tools supply instructions directly. The review team explicitly reads three profile bodies and supplies separate instructions and schemas to isolated, tool-free sessions; no native discovery or skill invocation. | The review-team application starts two specialists concurrently and passes validated results to a third coordinator session. This is SDK application orchestration, not editor handoffs. | Synthetic incident, PR, and three-role review-team runs completed locally on macOS with SDK 1.0.22 and gpt-5-mini. Offline replay is a separate simulation. |
-| GitHub Actions running an SDK application | Maintainer-triggered workflows use trusted default-branch code and API-fetched patches, never a PR checkout. The single-agent workflow optionally posts a COMMENT review in a separate job; the review team has read-only GitHub permissions and no publication step. Both use the configured Copilot environment credential. | Single-agent analysis/publication sequencing or the review team's application-controlled parallel-specialist/coordinator graph, not native agent handoffs. | Single-agent model inference and advisory publication were verified in the linked run below. The new team workflow passed local syntax checks; its remote execution remains pending. |
+| GitHub Actions running an SDK application | Maintainer-triggered workflows use trusted default-branch code and API-fetched patches, never a PR checkout. The single-agent workflow optionally posts a COMMENT review in a separate job; the review team has read-only GitHub permissions and no publication step. Both use the configured Copilot environment credential. | Single-agent analysis/publication sequencing or the review team's application-controlled parallel-specialist/coordinator graph, not native agent handoffs. | Single-agent inference/publication were verified. The team's first remote run reached inference but failed duplicate-finding validation; a successful remote run with the contract fix is pending. |
 
 This matrix covers only the intended surfaces for this showcase, not every
 product that supports skills. It records documentation-based capabilities, not
@@ -37,7 +37,7 @@ credential separation, and synthetic fixture. Its
 [Actions run](https://github.com/krshearman/systems-and-solutions/actions/runs/38802036685)
 completed analysis and publication on 2026-10-15 and posted an
 [advisory review](https://github.com/krshearman/systems-and-solutions/pull/5#pullrequestreview-5539452380).
-That is not evidence that the newer multi-agent workflow has run in Actions.
+That is separate from the newer multi-agent workflow's execution record.
 
 ## Portable baseline and limitations
 
@@ -83,7 +83,12 @@ SDK 1.0.22 and gpt-5-mini, producing validated specialist outputs, coordinator
 references, and an application execution trace. This verifies the application's
 mechanism, not native discovery of the three new profiles in VS Code, CLI, or
 GitHub.com. Those profiles' native interactive use has not been verified.
-The report-only team Actions workflow likewise still needs a remote run.
+The team's first
+[Actions run](https://github.com/krshearman/systems-and-solutions/actions/runs/38816283832)
+reached specialist inference but rejected duplicate findings. After making
+the existing uniqueness constraint explicit to the model, the same public
+README-only PR completed locally. A successful remote run with the fix is
+still pending.
 See the [walkthrough](examples/review-team-walkthrough.md) for commands,
 failure behavior, costs, and the distinction between replay and live sessions.
 

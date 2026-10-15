@@ -151,6 +151,16 @@ exit code and create no success report. There is no silent replay fallback,
 partial-success synthesis, or model-generated replacement for a failed role.
 Failed-run trace events are not persisted as a successful report.
 
+The specialist contract allows at most one finding per `(evidence, category)`
+pair, even when multiple guidelines apply. Specialists must combine related
+concerns for a pair before returning their reply. The shared instructions and
+schema state this restriction explicitly, and the schema's item budget cannot
+exceed the number of possible unique pairs. Actual duplicate pairs remain a
+hard validation failure; no finding is silently dropped and no retry is added.
+For a wording-only edit, an overview with zero findings is normally appropriate.
+The model must not infer absent documentation or safeguards from a partial
+file diff, but concrete material documentation concerns remain in scope.
+
 Inherited PR input limits are 25 files, 1,000 added lines, and 50,000 combined
 patch characters. Incomplete or missing textual patches are rejected rather
 than silently omitted. The serialized specialist prompt and coordinator
@@ -171,7 +181,7 @@ comments, approve merges, or invoke the existing publication command.
 After merging the workflow and application into the default branch:
 
 1. Reuse the `copilot-pr-analysis` environment and its `COPILOT_GITHUB_TOKEN` secret configured for the single-agent PR workflow.
-2. Open **Actions → Multi-agent PR review team → Run workflow**, select the default branch, and supply an open PR number and available model.
+2. Open **Actions → Multi-agent PR review team (SDK) → Run workflow**, select the default branch, and supply an open PR number and available model.
 3. Explicitly approve model upload, run, then inspect the advisory job summary and `pr-review-team` JSON/Markdown artifact.
 
 The [workflow](../../.github/workflows/pr-review-team.yml) checks the dispatch
@@ -199,7 +209,16 @@ Automated tests exercise a synchronization barrier proving both specialists
 enter before either can finish, fan-in ordering, cancellation, role ownership,
 finding retention, citation/priority validation, escaping, and CLI boundaries.
 Existing SDK tests cover the shared isolated transport. Workflow syntax has
-been checked locally; **this new team's remote Actions execution is pending**.
+been checked locally. The first
+[remote team run](https://github.com/krshearman/systems-and-solutions/actions/runs/38816283832)
+reached specialist inference on a one-line README edit but rejected duplicate
+architecture findings before coordinator execution. The uniqueness rule had
+not been communicated in the model instructions/schema; those now match the
+existing validator, with regression coverage for the one-line case and strict
+duplicate rejection. The same public PR completed locally with the updated
+contract. **A successful remote run with this fix remains pending.** Model
+noncompliance can still fail validation; this does not guarantee every future
+response is valid or semantically correct.
 The existing single-agent workflow's successful publication is not a team run.
 
 The application explicitly loads three `.agent.md` instruction bodies. It does

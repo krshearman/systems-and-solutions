@@ -14,7 +14,7 @@ approval.
 | [Refactor guard](.github/agents/refactor-guard.agent.md) | Verified across multiple surfaces| Scoped Python modernization, behavioral contracts, and a deterministic change gate |
 | [PR impact and security summarizer](docs/examples/pr-impact-walkthrough.md) | Verified end-to-end in GitHub Actions, including advisory review publication | Deterministic risk scoring, cited SDK observations, and opt-in advisory reviews |
 | [Incident post-mortem CLI](docs/examples/incident-postmortem-walkthrough.md) | Verified locally in offline and SDK modes | Text/JSONL ingestion, deterministic timelines, cited SDK analysis, and explicit failure handling |
-| [Multi-agent PR review team](docs/examples/review-team-walkthrough.md) | Verified locally in replay and live SDK modes; new Actions run pending | Parallel isolated specialists, validated handoffs, coordinator synthesis, and human review |
+| [Multi-agent PR review team](docs/examples/review-team-walkthrough.md) | Verified locally in replay and live SDK modes; Actions success pending | Parallel isolated specialists, validated handoffs, coordinator synthesis, and human review |
 
 The original five showcase components have been validated in their documented
 scenarios.
