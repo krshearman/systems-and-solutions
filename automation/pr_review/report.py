@@ -73,7 +73,12 @@ def read_guidelines(path: Path) -> Guidelines:
     return Guidelines(content, hashlib.sha256(raw).hexdigest(), sections)
 
 
-def analysis_schema(snapshot: Snapshot, guidelines: Guidelines) -> dict[str, object]:
+def analysis_schema(
+    snapshot: Snapshot, guidelines: Guidelines, *,
+    categories: tuple[str, ...] = ("security", "architecture", "impact"),
+) -> dict[str, object]:
+    if not categories or any(category not in {"security", "architecture", "impact"} for category in categories):
+        raise ReviewError("Analysis schema requires supported finding categories")
     string = {"type": "string", "minLength": 1, "maxLength": 600}
     overview = {
         "type": "object", "additionalProperties": False,
@@ -85,7 +90,7 @@ def analysis_schema(snapshot: Snapshot, guidelines: Guidelines) -> dict[str, obj
         },
     }
     finding_properties = {
-        "category": {"type": "string", "enum": ["security", "architecture", "impact"]},
+        "category": {"type": "string", "enum": list(categories)},
         "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
         "confidence": {"type": "integer", "minimum": 1, "maximum": 10},
         "evidence": {"type": "string", "enum": list(snapshot.line_evidence) or ["NO_ADDED_LINES"]},
