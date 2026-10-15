@@ -22,8 +22,8 @@ than merely adding more agent files.
 
 ## Try the architect agent
 
-Open this repository in a supported Copilot surface and select `architect-agent`
-from its custom-agent picker. For Copilot CLI, start your installed,
+Open this repository in a supported Copilot surface, such as VS Code or GitHub Copilot Cloud Agent from with the UI, and select `architect-agent`
+from its custom-agent picker. For Copilot CLI specifically, start your installed,
 authenticated CLI from the repository root:
 
 ```sh
