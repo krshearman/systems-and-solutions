@@ -1,9 +1,8 @@
 """Validate cited model analysis and render an explicitly unapproved report."""
 
 from dataclasses import dataclass
-import html
 import json
-import re
+from ..markdown import markdown_text
 
 from .logs import Evidence, IncidentError, decode_object
 
@@ -152,11 +151,6 @@ def validate_analysis(raw: str, evidence: Evidence) -> Analysis:
         strings("follow_up_actions"),
         strings("open_questions"),
     )
-
-
-def markdown_text(value: str) -> str:
-    value = html.escape(" ".join(value.split()), quote=False)
-    return re.sub(r"([\\`*_{}\[\]()#+.!|])", r"\\\1", value)
 
 
 def render_report(

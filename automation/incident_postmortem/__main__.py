@@ -2,25 +2,14 @@
 
 import argparse
 import asyncio
-import math
-import os
 from pathlib import Path
 import sys
-import tempfile
+from ..files import write_new_report
+from ..cli import request_timeout
 
 from .logs import IncidentError, read_evidence
 from .report import render_report
 from .sdk import analyze_with_copilot
-
-
-def request_timeout(value: str) -> float:
-    try:
-        result = float(value)
-    except ValueError as error:
-        raise argparse.ArgumentTypeError("Timeout must be a number") from error
-    if not math.isfinite(result) or not 0 < result <= 600:
-        raise argparse.ArgumentTypeError("Timeout must be greater than 0 and at most 600 seconds")
-    return result
 
 
 def check_output(path: Path) -> None:
@@ -28,24 +17,6 @@ def check_output(path: Path) -> None:
         raise IncidentError("Output already exists; choose a new path")
     if not path.parent.is_dir():
         raise IncidentError("Output parent directory does not exist")
-
-
-def write_new_report(path: Path, content: str) -> None:
-    temporary: Path | None = None
-    try:
-        with tempfile.NamedTemporaryFile(
-            mode="w", encoding="utf-8", dir=path.parent, delete=False,
-            prefix=".incident-", suffix=".tmp",
-        ) as stream:
-            temporary = Path(stream.name)
-            stream.write(content)
-            stream.flush()
-            os.fsync(stream.fileno())
-        # Hard-link publication is atomic and cannot overwrite a concurrent file.
-        os.link(temporary, path)
-    finally:
-        if temporary is not None:
-            temporary.unlink(missing_ok=True)
 
 
 def main(argv: list[str] | None = None) -> int:

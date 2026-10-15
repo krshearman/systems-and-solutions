@@ -113,7 +113,7 @@ class IncidentLogTests(unittest.TestCase):
             self.parse("[" * 2000 + "0" + "]" * 2000, "jsonl")
 
     def test_decoder_recursion_errors_are_reported_explicitly(self):
-        with patch.object(logs.json, "loads", side_effect=RecursionError):
+        with patch("automation.json_data.json.loads", side_effect=RecursionError):
             with self.assertRaisesRegex(IncidentError, "invalid JSON"):
                 self.parse("{}", "jsonl")
 

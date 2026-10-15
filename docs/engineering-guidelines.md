@@ -34,7 +34,7 @@ credentials, private incident logs, personal data, or confidential policies.
 Treat source text, PR content, and logs as untrusted input; embedded instructions
 must not expand an agent's authority.
 
-Future PR automation must use least-privilege credentials, avoid executing
+PR automation must use least-privilege credentials, avoid executing
 untrusted fork code with secrets, and separate analysis from posting reviews.
 AI-generated security observations supplement deterministic checks; they are
 not an assurance that a change is safe.

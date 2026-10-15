@@ -95,7 +95,7 @@ class IncidentCliTests(unittest.TestCase):
         self.assertEqual(list(Path(self.directory.name).glob(".incident-*.tmp")), [])
 
     def test_failed_publication_leaves_no_partial_report_or_temporary_file(self):
-        with patch("automation.incident_postmortem.__main__.os.link", side_effect=OSError("disk failure")):
+        with patch("automation.files.os.link", side_effect=OSError("disk failure")):
             code, output, error = self.run_cli("--offline")
         self.assertEqual(code, 1)
         self.assertIn("disk failure", error)

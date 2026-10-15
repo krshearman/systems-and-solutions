@@ -10,6 +10,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 from automation.incident_postmortem.logs import IncidentError, read_evidence
 from automation.incident_postmortem.sdk import analyze_with_copilot
+from automation.sdk import request_analysis
 
 
 SAMPLE = Path(__file__).resolve().parents[1] / "examples/incident_response/service-incident.txt"
@@ -88,6 +89,12 @@ class IncidentSdkTests(unittest.TestCase):
                 self.session.send_and_wait.side_effect = failure
                 with self.assertRaises(IncidentError):
                     self.run_adapter()
+
+    def test_explicit_automation_token_disables_logged_in_user_auth(self):
+        with patch.dict(sys.modules, self.modules):
+            asyncio.run(request_analysis("{}", "instructions", {}, "example", 10, token="synthetic-test-token"))
+        self.assertFalse(self.factory.call_args.kwargs["use_logged_in_user"])
+        self.assertEqual(self.factory.call_args.kwargs["github_token"], "synthetic-test-token")
 
     def test_outer_timeout_cancels_a_stalled_request_and_cleans_up(self):
         async def stalled(*args, **kwargs):
