@@ -1,6 +1,6 @@
 # systems-and-solutions
 
-A professional portfolio of AI-assisted engineering: architectural decisions,
+A professional portfolio of AI-assisted engineering that highlights tools that facilitate architectural decisions,
 bounded refactoring, change-risk assessment, and incident learning. The emphasis
 is on evidence, explicit boundaries, and human review rather than autonomous
 approval.
