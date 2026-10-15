@@ -124,6 +124,18 @@ cite file IDs. Deleted-only changes can have an overview but cannot receive
 new-side inline findings. Valid citation IDs establish location, not truth.
 Model confidence is subjective, not a probability or independent verification.
 
+Each `(added-line evidence ID, category)` pair may appear only once in findings,
+even when several guidelines apply. The model must combine related concerns
+and recommendations for that pair into one finding. Its instructions and
+schema describe this rule; the application still rejects duplicates rather
+than silently discarding observations. The schema caps findings at the smaller
+of five and the number of available line/category pairs.
+
+Wording-only changes normally need only an overview, not invented findings.
+Changed hunks do not establish that documentation, ownership, tests, or
+safeguards are missing elsewhere. A documentation change can still warrant a
+finding when the supplied evidence demonstrates a concrete material consequence.
+
 ## 5. Optional publication
 
 After reviewing a live report and checking disclosure requirements, explicitly

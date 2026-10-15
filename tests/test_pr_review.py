@@ -16,7 +16,7 @@ from automation.pr_review.evidence import (
 )
 from automation.pr_review.github import GitHub, NoRedirect
 from automation.pr_review.report import (
-    analysis_schema, model_prompt, read_guidelines, render_report, validate_analysis,
+    SYSTEM_PROMPT, analysis_schema, model_prompt, read_guidelines, render_report, validate_analysis,
 )
 from automation.sdk import SdkError
 
@@ -174,6 +174,63 @@ class EvidenceTests(ReviewBase):
 
 
 class ModelReportTests(ReviewBase):
+    def test_schema_and_instructions_expose_the_finding_uniqueness_contract(self):
+        schema = analysis_schema(self.snapshot, self.guidelines)
+        self.assertIn("(evidence, category) pair", SYSTEM_PROMPT)
+        self.assertIn("empty findings", SYSTEM_PROMPT)
+        self.assertIn("wording-only", SYSTEM_PROMPT)
+        self.assertIn(
+            "(evidence, category) pair",
+            schema["properties"]["findings"]["description"],
+        )
+        string = schema["properties"]["overview"]["items"]["properties"]["statement"]
+        self.assertIn("pattern", string)
+        self.assertIn("single-line", string["description"])
+        self.assertNotIn("uniqueItems", json.dumps(schema))
+
+    def test_one_line_finding_budget_matches_allowed_unique_pairs(self):
+        data = deepcopy(self.data)
+        data["files"] = data["files"][:1]
+        data["files"][0].update(
+            filename="README.md", status="modified", additions=1, deletions=1,
+            patch="@@ -3 +3 @@\n-A synthetic portfolio.\n+A synthetic engineering portfolio.",
+        )
+        snapshot = snapshot_from_dict(data)
+        self.assertEqual(set(snapshot.line_evidence), {"F1:L3"})
+        for categories, maximum in (
+            (("security",), 1),
+            (("architecture", "impact"), 2),
+            (("security", "architecture", "impact"), 3),
+        ):
+            with self.subTest(categories=categories):
+                schema = analysis_schema(snapshot, self.guidelines, categories=categories)
+                self.assertEqual(schema["properties"]["findings"]["maxItems"], maximum)
+        self.assertEqual(
+            analysis_schema(self.snapshot, self.guidelines)["properties"]["findings"]["maxItems"],
+            5,
+        )
+
+    def test_pair_duplicates_are_rejected_even_with_distinct_text_and_guidelines(self):
+        data = valid_analysis()
+        duplicate = {
+            **data["findings"][0], "guideline": "G4",
+            "statement": "A different synthetic consequence at the same location.",
+            "recommendation": "A different synthetic recommendation.",
+        }
+        data["findings"].append(duplicate)
+        with self.assertRaisesRegex(
+            ReviewError, r"Duplicate finding.*F1:L2, security.*combine concerns"
+        ):
+            validate_analysis(json.dumps(data), self.snapshot, self.guidelines)
+
+    def test_shared_line_or_category_alone_does_not_make_a_pair_duplicate(self):
+        for changes in ({"category": "architecture"}, {"evidence": "F1:L3"}):
+            data = valid_analysis()
+            data["findings"].append({**data["findings"][0], **changes})
+            with self.subTest(changes=changes):
+                analysis = validate_analysis(json.dumps(data), self.snapshot, self.guidelines)
+                self.assertEqual(len(analysis.findings), 2)
+
     def test_schema_prompt_and_report_keep_evidence_and_guidelines_separate(self):
         schema = analysis_schema(self.snapshot, self.guidelines)
         self.assertNotIn("uniqueItems", json.dumps(schema))
