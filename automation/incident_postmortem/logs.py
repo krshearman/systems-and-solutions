@@ -3,9 +3,9 @@
 from dataclasses import dataclass
 from datetime import UTC, datetime
 import hashlib
-import json
 from pathlib import Path
 import re
+from ..json_data import decode_object as decode_json_object
 
 
 MAX_BYTES = 256 * 1024
@@ -23,28 +23,7 @@ class IncidentError(ValueError):
 
 
 def decode_object(text: str, context: str) -> dict[str, object]:
-    def unique_pairs(pairs: list[tuple[str, object]]) -> dict[str, object]:
-        result: dict[str, object] = {}
-        for key, value in pairs:
-            if key in result:
-                raise IncidentError(f"{context}: duplicate JSON field")
-            result[key] = value
-        return result
-
-    def reject_constant(value: str) -> None:
-        raise IncidentError(f"{context}: non-finite JSON values are not allowed")
-
-    try:
-        result = json.loads(
-            text, object_pairs_hook=unique_pairs, parse_constant=reject_constant
-        )
-    except IncidentError:
-        raise
-    except (ValueError, RecursionError) as error:
-        raise IncidentError(f"{context}: invalid JSON") from error
-    if not isinstance(result, dict):
-        raise IncidentError(f"{context}: expected a JSON object")
-    return result
+    return decode_json_object(text, context, IncidentError)
 
 
 @dataclass(frozen=True)

@@ -12,7 +12,7 @@ approval.
 | [Architect agent](.github/agents/architect-agent.agent.md) | Verified across multiple surfaces | Evidence-based change analysis and ADR skill composition |
 | [ADR skill](.github/skills/architectural-decision-record/SKILL.md) | Verified across multiple surfaces | On-demand instructions, a reusable template, and proposed decision records |
 | [Refactor guard](.github/agents/refactor-guard.agent.md) | Verified across multiple surfaces| Scoped Python modernization, behavioral contracts, and a deterministic change gate |
-| PR impact and security summarizer | Planned | Copilot SDK automation, explained risk scoring, and GitHub review integration |
+| [PR impact and security summarizer](docs/examples/pr-impact-walkthrough.md) | Implemented; local synthetic SDK run completed; Actions execution pending | Deterministic risk scoring, cited SDK observations, and opt-in advisory reviews |
 | [Incident post-mortem CLI](docs/examples/incident-postmortem-walkthrough.md) | Implemented; local SDK smoke run completed | Text/JSONL ingestion, deterministic timelines, cited SDK analysis, and explicit failure handling |
 
 The current showcase has two specialized agents and a reusable ADR skill.
@@ -104,6 +104,34 @@ never published automatically. Valid citations do not guarantee factual
 accuracy. Outputs are never overwritten, and model failures do not silently
 become offline reports.
 
+## Assess PR impact and security
+
+The Python summarizer captures an immutable, bounded textual PR diff, evaluates
+it against the engineering guidelines, and explains a locally calculated risk
+score. Optional SDK observations cite added lines and guideline sections.
+The score is a review-priority heuristic, not a vulnerability probability.
+
+Try the deliberately synthetic snapshot without credentials or a model:
+
+```sh
+mkdir -p reports
+python3 -B -m automation.pr_review analyze \
+  --fixture examples/pr_review/pull_request.json \
+  --offline \
+  --output reports/pr-review.json
+```
+
+This creates `reports/pr-review.md` and a machine-readable JSON bundle. Nothing
+is posted. The fixture's PR number, SHAs, source snippets, and dependency are
+fictional; it is not a review of an actual pull request.
+
+The [walkthrough](docs/examples/pr-impact-walkthrough.md) covers live PR input,
+SDK authentication, the scoring rubric, and the maintainer-triggered
+[Actions workflow](.github/workflows/pr-impact.yml). Report-only is the default.
+Explicit publication uses a separate job with review-write permission,
+revalidates the PR and guidelines, and submits only `COMMENT` reviews.
+It never checks out or executes PR code and never approves a merge.
+
 ## Design and boundaries
 
 The [engineering guidelines](docs/engineering-guidelines.md) define this
@@ -114,6 +142,7 @@ certify compliance, or publish reviews.
 Agent instructions are behavioral boundaries, not a security sandbox. Tool
 permissions and human review remain necessary. Worked examples are synthetic,
 not claims of production use. Architecture/ADR and refactor-guard surface
-verification were reported by the maintainer. The incident tool's local SDK
-smoke run uses only bundled synthetic evidence; broader model and platform
-compatibility is not claimed.
+verification were reported by the maintainer. The tools' local SDK smoke runs
+use only bundled synthetic evidence; broader model and platform compatibility
+is not claimed. PR analysis in Actions and live review publication require
+maintainer configuration and are not yet verified remotely.
