@@ -14,17 +14,22 @@ approval.
 | [Refactor guard](.github/agents/refactor-guard.agent.md) | Verified across multiple surfaces| Scoped Python modernization, behavioral contracts, and a deterministic change gate |
 | [PR impact and security summarizer](docs/examples/pr-impact-walkthrough.md) | Verified end-to-end in GitHub Actions, including advisory review publication | Deterministic risk scoring, cited SDK observations, and opt-in advisory reviews |
 | [Incident post-mortem CLI](docs/examples/incident-postmortem-walkthrough.md) | Verified locally in offline and SDK modes | Text/JSONL ingestion, deterministic timelines, cited SDK analysis, and explicit failure handling |
+| [Multi-agent PR review team](docs/examples/review-team-walkthrough.md) | Verified locally in replay and live SDK modes; new Actions run pending | Parallel isolated specialists, validated handoffs, coordinator synthesis, and human review |
 
-All five showcase components have been validated in their documented scenarios.
+The original five showcase components have been validated in their documented
+scenarios.
 On 2026-10-15, the PR summarizer's
 [successful Actions run](https://github.com/krshearman/systems-and-solutions/actions/runs/38802036685)
 completed both analysis and publication, posting an
 [advisory COMMENT review on the test PR](https://github.com/krshearman/systems-and-solutions/pull/5#pullrequestreview-5539452380).
 
-The current showcase has two specialized agents and a reusable ADR skill.
-Transitions between agents are manual, **not yet automated multi-agent
-orchestration**. Later milestones will demonstrate explicit coordination rather
-than merely adding more agent files.
+The showcase now includes two standalone agents, three SDK review-team role
+profiles, and a reusable ADR skill. The review team demonstrates **actual
+application-orchestrated multi-agent execution**: two separate specialist
+sessions run concurrently, then a third session consumes their validated results.
+Transitions between the original architect and refactor-guard agents remain
+manual. This is not a claim of native handoffs or identical behavior across
+Copilot surfaces.
 
 ## Try the architect agent
 
@@ -138,6 +143,43 @@ Explicit publication uses a separate job with review-write permission,
 revalidates the PR and guidelines, and submits only `COMMENT` reviews.
 It never checks out or executes PR code and never approves a merge.
 
+## Run the multi-agent review team
+
+The architecture and security specialists independently receive the same pinned
+PR snapshot in separate SDK contexts. The coordinator receives their validated
+observations and cited snippets, prioritizes every finding without changing its
+severity, and flags potential disagreements for a human to resolve.
+
+```mermaid
+flowchart LR
+  Snapshot[Pinned PR snapshot] --> Architecture[Architecture specialist]
+  Snapshot --> Security[Security specialist]
+  Architecture --> Barrier[Validate both outputs]
+  Security --> Barrier
+  Barrier --> Coordinator[Coordinator synthesis]
+  Coordinator --> Report[Validate and write human-review report]
+```
+
+Try the complete coordination path with authored synthetic outputs and no
+credentials, dependencies, or model calls:
+
+```sh
+mkdir -p reports
+python3 -B -m automation.review_team \
+  --fixture examples/pr_review/pull_request.json \
+  --replay examples/review_team/replay.json \
+  --output reports/review-team.json
+```
+
+Replay is explicitly labeled simulation, not live agent execution. Follow the
+[walkthrough](docs/examples/review-team-walkthrough.md) for three real SDK
+requests, the trace and handoff contracts, and the separate
+[report-only Actions workflow](.github/workflows/pr-review-team.yml).
+The application loads the three role-profile bodies explicitly; it does not
+rely on native agent discovery. Neither replay nor live mode publishes reviews,
+edits code, or replaces human judgment. Separate contexts using the same model
+are not independent corroboration.
+
 ## Design and boundaries
 
 The [engineering guidelines](docs/engineering-guidelines.md) define this
@@ -151,6 +193,8 @@ not claims of production use. Architecture/ADR and refactor-guard surface
 verification were reported by the maintainer. The tools' local SDK runs use
 bundled synthetic evidence, and PR analysis and advisory review publication
 have also been verified end-to-end in GitHub Actions. Broader model and
-platform compatibility is not claimed. The workflow still requires explicit
-upload approval, configured credentials, and opt-in publication; successful
-execution does not establish that every AI observation is correct.
+platform compatibility is not claimed. The SDK workflows require explicit
+upload approval and configured credentials.
+Only the single-agent PR summarizer supports opt-in publication; the review
+team is report-only. Successful execution does not establish that every AI
+observation is correct.
