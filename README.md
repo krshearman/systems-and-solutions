@@ -12,8 +12,14 @@ approval.
 | [Architect agent](.github/agents/architect-agent.agent.md) | Verified across multiple surfaces | Evidence-based change analysis and ADR skill composition |
 | [ADR skill](.github/skills/architectural-decision-record/SKILL.md) | Verified across multiple surfaces | On-demand instructions, a reusable template, and proposed decision records |
 | [Refactor guard](.github/agents/refactor-guard.agent.md) | Verified across multiple surfaces| Scoped Python modernization, behavioral contracts, and a deterministic change gate |
-| [PR impact and security summarizer](docs/examples/pr-impact-walkthrough.md) | Implemented; local synthetic SDK run completed; Actions execution pending | Deterministic risk scoring, cited SDK observations, and opt-in advisory reviews |
-| [Incident post-mortem CLI](docs/examples/incident-postmortem-walkthrough.md) | Implemented; local SDK smoke run completed | Text/JSONL ingestion, deterministic timelines, cited SDK analysis, and explicit failure handling |
+| [PR impact and security summarizer](docs/examples/pr-impact-walkthrough.md) | Verified end-to-end in GitHub Actions, including advisory review publication | Deterministic risk scoring, cited SDK observations, and opt-in advisory reviews |
+| [Incident post-mortem CLI](docs/examples/incident-postmortem-walkthrough.md) | Verified locally in offline and SDK modes | Text/JSONL ingestion, deterministic timelines, cited SDK analysis, and explicit failure handling |
+
+All five showcase components have been validated in their documented scenarios.
+On 2026-10-15, the PR summarizer's
+[successful Actions run](https://github.com/krshearman/systems-and-solutions/actions/runs/38802036685)
+completed both analysis and publication, posting an
+[advisory COMMENT review on the test PR](https://github.com/krshearman/systems-and-solutions/pull/5#pullrequestreview-5539452380).
 
 The current showcase has two specialized agents and a reusable ADR skill.
 Transitions between agents are manual, **not yet automated multi-agent
@@ -142,7 +148,9 @@ certify compliance, or publish reviews.
 Agent instructions are behavioral boundaries, not a security sandbox. Tool
 permissions and human review remain necessary. Worked examples are synthetic,
 not claims of production use. Architecture/ADR and refactor-guard surface
-verification were reported by the maintainer. The tools' local SDK smoke runs
-use only bundled synthetic evidence; broader model and platform compatibility
-is not claimed. PR analysis in Actions and live review publication require
-maintainer configuration and are not yet verified remotely.
+verification were reported by the maintainer. The tools' local SDK runs use
+bundled synthetic evidence, and PR analysis and advisory review publication
+have also been verified end-to-end in GitHub Actions. Broader model and
+platform compatibility is not claimed. The workflow still requires explicit
+upload approval, configured credentials, and opt-in publication; successful
+execution does not establish that every AI observation is correct.
