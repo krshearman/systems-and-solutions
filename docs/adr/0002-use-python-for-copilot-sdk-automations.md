@@ -1,8 +1,8 @@
 # 0002: Use Python for Copilot SDK automations
 
-- Status: Proposed
+- Status: Acceoted
 - Date: 2026-10-15
-- Decision owner: Unassigned; maintainer review required
+- Decision owner: @krshearman
 
 ## Context
 

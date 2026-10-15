@@ -1,8 +1,8 @@
 # 0001: Share architect profile across surfaces
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-15
-- Decision owner: Unassigned; maintainer review required
+- Decision owner: @krshearman
 
 ## Context
 
