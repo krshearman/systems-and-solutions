@@ -11,7 +11,7 @@ approval.
 | --- | --- | --- |
 | [Architect agent](.github/agents/architect-agent.agent.md) | Verified across multiple surfaces | Evidence-based change analysis and ADR skill composition |
 | [ADR skill](.github/skills/architectural-decision-record/SKILL.md) | Verified across multiple surfaces | On-demand instructions, a reusable template, and proposed decision records |
-| [Refactor guard](.github/agents/refactor-guard.agent.md) | Implemented; live agent verification pending | Scoped Python modernization, behavioral contracts, and a deterministic change gate |
+| [Refactor guard](.github/agents/refactor-guard.agent.md) | Verified across multiple surfaces| Scoped Python modernization, behavioral contracts, and a deterministic change gate |
 | PR impact and security summarizer | Planned | Copilot SDK automation, explained risk scoring, and GitHub review integration |
 | Incident post-mortem CLI | Planned | Evidence-linked timelines and executive-ready draft reports |
 
