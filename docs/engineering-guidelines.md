@@ -22,8 +22,10 @@ restrict write paths are not filesystem access controls. Enforce stronger
 boundaries through the execution environment when needed.
 
 Preserve existing behavior unless a change is intentional and documented.
-Future refactoring examples must define their supported language, deprecated
-patterns, replacements, exclusions, and behavior checks before automation.
+Refactoring examples must define their supported language, deprecated patterns,
+replacements, exclusions, and behavior checks before automation. The
+[refactor guard contract](refactor-guard-rules.md) specifies these for the
+synthetic Python demo; its agent may edit only the documented workspace.
 
 ## Data and trust boundaries
 
