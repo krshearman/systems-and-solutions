@@ -1,4 +1,4 @@
-name: Multi-agent PR review team
+name: Multi-agent PR review team (SDK)
 
 on:
   workflow_dispatch:
