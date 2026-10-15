@@ -11,13 +11,14 @@ approval.
 | --- | --- | --- |
 | [Architect agent](.github/agents/architect-agent.agent.md) | Verified across multiple surfaces | Evidence-based change analysis and ADR skill composition |
 | [ADR skill](.github/skills/architectural-decision-record/SKILL.md) | Verified across multiple surfaces | On-demand instructions, a reusable template, and proposed decision records |
-| Refactor guard | Planned | Scoped modernization against documented engineering patterns |
+| [Refactor guard](.github/agents/refactor-guard.agent.md) | Implemented; live agent verification pending | Scoped Python modernization, behavioral contracts, and a deterministic change gate |
 | PR impact and security summarizer | Planned | Copilot SDK automation, explained risk scoring, and GitHub review integration |
 | Incident post-mortem CLI | Planned | Evidence-linked timelines and executive-ready draft reports |
 
-The current milestone is one specialized agent composed with a skill, **not yet
-a multi-agent orchestration system**. Later milestones will demonstrate explicit
-coordination and verification rather than merely adding more agent files.
+The current showcase has two specialized agents and a reusable ADR skill.
+Transitions between agents are manual, **not yet automated multi-agent
+orchestration**. Later milestones will demonstrate explicit coordination rather
+than merely adding more agent files.
 
 ## Try the architect agent
 
@@ -49,6 +50,30 @@ See the [walkthrough and acceptance scenarios](docs/examples/architect-walkthrou
 authentication, discovery, and tool availability depend on the surface; no SDK
 or CI credentials are needed for these repository-local definitions.
 
+## Try refactor guard
+
+The Python example replaces two deprecated synthetic internal helpers without
+changing its incident summary's behavior. Its before/after fixtures, contract
+tests, and strict syntax-tree gate make the permitted change concrete.
+
+Run the dependency-free checks from the repository root with Python 3.11 or
+later:
+
+```sh
+python3 -B -m unittest discover -s tests -v
+python3 -B tools/check_refactor_guard.py
+```
+
+Follow the [live walkthrough](docs/examples/refactor-guard-walkthrough.md) to
+seed the legacy target, select `refactor-guard`, and demonstrate the gate moving
+from failure to success. The checked-in workspace starts modernized so normal
+checks pass. The [rules](docs/refactor-guard-rules.md) define its write boundary,
+behavioral invariants, exclusions, and manual architecture escalation.
+
+The [CI workflow](.github/workflows/ci.yml) runs the deterministic checks on
+Python 3.11 and 3.13. It makes no model calls and does not verify live agent
+behavior.
+
 ## Design and boundaries
 
 The [engineering guidelines](docs/engineering-guidelines.md) define this
@@ -57,5 +82,6 @@ draft documentation; it does not change application code, accept decisions,
 certify compliance, or publish reviews.
 
 Agent instructions are behavioral boundaries, not a security sandbox. Tool
-permissions and human review remain necessary. All worked examples are
-illustrative, not claims of production use or successful live agent execution.
+permissions and human review remain necessary. Worked examples are synthetic,
+not claims of production use. Architecture/ADR live verification was reported
+by the maintainer; refactor guard's live custom-agent execution remains pending.
