@@ -44,7 +44,9 @@ p + p { margin-top: 1rem; }
 
 .site-header { border-bottom: 1px solid var(--line); background: var(--paper); }
 .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 32px; min-height: 100px; }
-.brand { display: inline-flex; gap: 16px; align-items: center; text-decoration: none; font-size: .85rem; font-weight: 600; line-height: 1.5; }
+.brand { display: inline-flex; gap: 16px; align-items: center; font-size: .85rem; font-weight: 600; line-height: 1.5; }
+.brand a { text-decoration: none; }
+.brand-subtitle:hover { text-decoration: underline; }
 .monogram { display: grid; place-items: center; width: 47px; height: 47px; border: 1px solid #a9b4a8; color: var(--green); font: italic 1.5rem var(--serif); letter-spacing: -.09em; }
 .brand-subtitle { display: block; color: var(--muted); font-size: .63rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; }
 .site-nav { display: flex; align-items: center; gap: 30px; font-size: .78rem; }

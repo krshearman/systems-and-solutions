@@ -15,6 +15,9 @@ class Document(HTMLParser):
         self.elements = []
         self.ids = []
         self.text = []
+        self.links = []
+        self.open_links = []
+        self.has_nested_links = False
         self.feed(path.read_text(encoding="utf-8"))
 
     def handle_starttag(self, tag, attrs):
@@ -22,9 +25,20 @@ class Document(HTMLParser):
         self.elements.append((tag, attrs))
         if "id" in attrs:
             self.ids.append(attrs["id"])
+        if tag == "a":
+            self.has_nested_links |= bool(self.open_links)
+            link = (attrs, [])
+            self.links.append(link)
+            self.open_links.append(link)
+
+    def handle_endtag(self, tag):
+        if tag == "a" and self.open_links:
+            self.open_links.pop()
 
     def handle_data(self, data):
         self.text.append(data)
+        for _, text in self.open_links:
+            text.append(data)
 
 
 class PortfolioTests(unittest.TestCase):
@@ -77,6 +91,22 @@ class PortfolioTests(unittest.TestCase):
                 if href.startswith(prefix + kind):
                     target = ROOT / href.removeprefix(prefix + kind)
                     self.assertTrue(target.exists(), f"Broken repository link: {href}")
+
+    def test_brand_has_separate_repository_and_home_links(self):
+        for class_name, href, label in (
+            ("brand-home", "./", "Kendall Shearman"),
+            ("brand-subtitle", "https://github.com/krshearman/systems-and-solutions",
+             "Systems & solutions"),
+        ):
+            with self.subTest(link=class_name):
+                links = [(attrs, "".join(text)) for attrs, text in self.home.links
+                         if class_name in attrs.get("class", "").split()]
+                self.assertEqual(len(links), 1)
+                attrs, text = links[0]
+                self.assertEqual(attrs["href"], href)
+                self.assertEqual(text, label)
+                self.assertNotIn("tabindex", attrs)
+        self.assertFalse(self.home.has_nested_links)
 
     def test_github_advanced_security_is_present_in_both_public_pages(self):
         for document in (self.home, self.resume):
