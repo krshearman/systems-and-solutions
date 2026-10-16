@@ -6,6 +6,14 @@ adds project filters, a mobile navigation toggle, and command copying.
 No framework, package install, external fonts, tracking, or model credential
 is required to serve it. It is not a web interface for running the SDK tools.
 
+External website links on both the portfolio and HTML resume open in a new
+tab or window, according to browser settings. Native anchors use
+`target="_blank"` and `rel="noopener noreferrer"` so the destination cannot
+access the opener and receives no referrer. Each link references a visible,
+screen-reader-accessible notice. Internal pages and section navigation stay
+in the current tab; email links and PDF downloads retain their normal behavior.
+This works without JavaScript.
+
 ## Preview and check
 
 From the repository root:

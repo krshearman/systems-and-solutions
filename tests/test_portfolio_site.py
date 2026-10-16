@@ -112,6 +112,36 @@ class PortfolioTests(unittest.TestCase):
         for document in (self.home, self.resume):
             self.assertIn("GitHub Advanced Security (GHAS)", "".join(document.text))
 
+    def test_external_web_links_open_safely_with_an_accessible_notice(self):
+        for document in (self.home, self.resume):
+            external = [attrs for attrs, _ in document.links
+                        if urlsplit(attrs["href"]).scheme in {"http", "https"}
+                        and urlsplit(attrs["href"]).netloc != "krshearman.github.io"
+                        and "download" not in attrs]
+            self.assertTrue(external)
+            self.assertIn("external-link-notice", document.ids)
+            self.assertIn("External links open in a new tab or window.", "".join(document.text))
+            for attrs in external:
+                with self.subTest(page=document.path, href=attrs["href"]):
+                    self.assertEqual(attrs.get("target"), "_blank")
+                    self.assertTrue({"noopener", "noreferrer"}.issubset(
+                        attrs.get("rel", "").split()))
+                    self.assertIn("external-link-notice",
+                                  attrs.get("aria-describedby", "").split())
+
+    def test_internal_email_and_download_links_keep_native_behavior(self):
+        for document in (self.home, self.resume):
+            self.assertFalse(any(tag == "base" for tag, _ in document.elements))
+            for attrs, _ in document.links:
+                parsed = urlsplit(attrs["href"])
+                if (parsed.scheme not in {"http", "https"}
+                        or parsed.netloc == "krshearman.github.io"
+                        or "download" in attrs):
+                    with self.subTest(page=document.path, href=attrs["href"]):
+                        self.assertNotIn("target", attrs)
+                        self.assertNotIn("aria-describedby", attrs)
+            self.assertTrue(any("download" in attrs for attrs, _ in document.links))
+
     def test_public_resume_asset_and_contact_links(self):
         for document in (self.home, self.resume):
             content = document.path.read_text()
