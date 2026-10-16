@@ -56,6 +56,14 @@ Normal repository CI continues to check the engineering examples separately.
 Wait for a successful Pages deployment before sharing the public URL.
 The deployment's environment link is the authoritative published address.
 
+The SDK PR reviewers are separate, bounded text-only demonstrations. A site
+PR that adds the PDF resume or WebP headshot is not eligible for either
+reviewer; large HTML/CSS changes can also exceed their input budgets.
+See the [review input limits](examples/pr-impact-walkthrough.md#limits-and-failures).
+Such a review failure is not a failed site build: the Pages workflow depends
+on its site contract checks, not an SDK review run. Any configured repository
+branch-protection or required-check rules still apply to merging.
+
 ## Update content safely
 
 Edit the home page and [`site/resume/index.html`](../site/resume/index.html)

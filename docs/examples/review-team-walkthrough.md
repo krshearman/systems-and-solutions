@@ -143,6 +143,30 @@ reasoning, or a semantic audit. Hidden model reasoning is not collected.
 
 ## Failure behavior and limits
 
+### PR input eligibility
+
+The team inherits the single-agent reviewer's limits: 1-25 changed files,
+1,000 total added lines, and 50,000 combined patch characters. **Every changed
+file must have a complete textual patch.** These checks run before any
+specialist or coordinator model call.
+
+A PR adding a PDF resume or a WebP/PNG portrait is unsupported, even if its
+code and documentation are otherwise reviewable. Missing patches fail with
+`Missing textual patch; binary or unavailable diffs are unsupported`.
+GitHub can omit text patches as well as binary patches, and incomplete hunks
+are rejected. The application does not assume an omitted patch is harmless.
+There is no file-ignore, partial-review, automatic batching, or truncation
+mode in either the CLI or Actions workflow.
+
+Use smaller text-only PRs for live evaluation, and review binary assets
+manually or with appropriate tooling. Splitting oversized text changes can
+resolve size errors; isolating a binary asset in its own PR does not make that
+PR supported. Rerunning unchanged input or changing the token/model will not
+resolve these errors. Fixing one condition may expose another exceeded limit.
+See the [shared limits and recovery guidance](pr-impact-walkthrough.md#limits-and-failures).
+
+### Model-output failures and request budgets
+
 If a specialist fails authentication, times out, or returns invalid output, its
 sibling is cancelled and the coordinator is not invoked. Cancellation requests
 local cleanup; it does not guarantee the provider did no billable work.
@@ -161,9 +185,7 @@ For a wording-only edit, an overview with zero findings is normally appropriate.
 The model must not infer absent documentation or safeguards from a partial
 file diff, but concrete material documentation concerns remain in scope.
 
-Inherited PR input limits are 25 files, 1,000 added lines, and 50,000 combined
-patch characters. Incomplete or missing textual patches are rejected rather
-than silently omitted. The serialized specialist prompt and coordinator
+The serialized specialist prompt and coordinator
 handoff each have a 100,000-character cap. Each model reply has a
 40,000-character cap. Each specialist can return 1-3 overview statements and
 0-5 findings; coordinator synthesis retains all findings from both roles.

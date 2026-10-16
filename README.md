@@ -132,6 +132,25 @@ never published automatically. Valid citations do not guarantee factual
 accuracy. Outputs are never overwritten, and model failures do not silently
 become offline reports.
 
+## PR review input limits
+
+Both the single-agent summarizer and multi-agent review team are **bounded,
+text-only examples**, not general-purpose reviewers for every PR. They accept
+at most 25 changed files, 1,000 total added lines, and 50,000 combined patch
+characters. Every changed file must have a complete textual patch.
+
+**A changed binary asset, such as a PDF resume or WebP/PNG headshot, rejects
+the entire review before model calls.** Missing or incomplete text patches and
+oversized changes also fail explicitly. Neither tool silently skips files,
+truncates evidence, batches oversized PRs, or offers a partial-review mode.
+Rerunning an unchanged PR or changing the model/token will not fix these
+input errors.
+
+Use smaller text-only PRs to exercise the SDK examples; review binary assets
+manually or with appropriate tooling. Splitting a binary file into its own PR
+does not make that PR supported. See the
+[detailed limits and recovery guidance](docs/examples/pr-impact-walkthrough.md#limits-and-failures).
+
 ## Assess PR impact and security
 
 The Python summarizer captures an immutable, bounded textual PR diff, evaluates
@@ -161,6 +180,9 @@ revalidates the PR and guidelines, and submits only `COMMENT` reviews.
 It never checks out or executes PR code and never approves a merge.
 
 ## Run the multi-agent review team
+
+The [shared text-only PR input limits](#pr-review-input-limits) apply to this
+team too, including rejection of PRs containing binary assets.
 
 The architecture and security specialists independently receive the same pinned
 PR snapshot in separate SDK contexts. The coordinator receives their validated

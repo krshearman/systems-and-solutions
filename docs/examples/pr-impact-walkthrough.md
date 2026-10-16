@@ -212,12 +212,43 @@ visibility before running. `reports/` is ignored locally.
 
 ## Limits and failures
 
-The supported envelope is 1-25 files, 1,000 added lines, 50,000 combined patch
-characters, 100,000 serialized model-input characters, 40,000 model-output
-characters, 16,000 guideline bytes, and 256,000 input JSON bytes. API responses
-are capped at 1,000,000 bytes. Limits fail explicitly, never truncate. Binary,
-unavailable, oversized, or unsupported diffs are not scored as complete reviews.
-Split large changes into reviewable PRs rather than assuming hidden coverage.
+This application and the multi-agent review team share a strict, text-only
+input contract. These are application limits, not general GitHub or Copilot
+platform limits.
+
+| PR input | Supported limit |
+| --- | --- |
+| Changed files | 1-25 |
+| Added lines, across all files | At most 1,000 |
+| Combined patch characters, across all files | At most 50,000 |
+| Patch availability | Complete textual patches for every changed file |
+
+**Binary assets are unsupported even when the rest of the PR is text.**
+GitHub does not supply textual patches for files such as PDF resumes and
+WebP/PNG headshots. It can also omit patches for oversized or unavailable
+text diffs. A missing patch fails the entire review with:
+
+```text
+Missing textual patch; binary or unavailable diffs are unsupported
+```
+
+An asset reported as having zero additions/deletions is not evidence that its
+content was reviewed. Incomplete textual hunks are rejected too. Input
+validation stops before model calls; no partial review is produced. Neither
+CLI nor Actions provides a binary-file ignore option, automatic batching,
+or truncation fallback.
+
+Split oversized text changes into smaller reviewable PRs. For a PR containing
+binary assets, use human review or appropriate asset-inspection tools; moving
+those assets into a separate PR does not make that binary PR eligible.
+Rerunning unchanged input, changing the model, or replacing credentials does
+not resolve these input-contract errors. Resolving one limit may expose
+another, so check file types, added-line totals, and patch size together.
+
+Additional limits are 100,000 serialized model-input characters, 40,000
+model-output characters, 16,000 guideline bytes, and 256,000 input JSON bytes.
+API responses are capped at 1,000,000 bytes. Limits fail explicitly, never
+truncate.
 
 Output parents must exist and support hard links. Each report file is private
 on POSIX and published atomically without replacement, with the JSON bundle
