@@ -5,6 +5,18 @@ bounded refactoring, change-risk assessment, and incident learning. The emphasis
 is on evidence, explicit boundaries, and human review rather than autonomous
 approval.
 
+## Portfolio website
+
+The visual portfolio lives in [`site/`](site/) and brings the working examples
+together with professional experience, certifications, and a public résumé.
+It is a dependency-free static site: no model credentials, analytics, or
+browser-side SDK calls. Only `site/` is included in the Pages deployment.
+
+After the Pages workflow is merged and deployed, visit
+**[Kendall Shearman · Systems & Solutions](https://krshearman.github.io/systems-and-solutions/)**.
+See the [site guide](docs/portfolio-site.md) for local preview, deployment,
+accessibility, and safe résumé updates.
+
 ## Showcase
 
 | Component | Status | Demonstrates |
@@ -14,7 +26,7 @@ approval.
 | [Refactor guard](.github/agents/refactor-guard.agent.md) | Verified across multiple surfaces| Scoped Python modernization, behavioral contracts, and a deterministic change gate |
 | [PR impact and security summarizer](docs/examples/pr-impact-walkthrough.md) | Verified end-to-end in GitHub Actions, including advisory review publication | Deterministic risk scoring, cited SDK observations, and opt-in advisory reviews |
 | [Incident post-mortem CLI](docs/examples/incident-postmortem-walkthrough.md) | Verified locally in offline and SDK modes | Text/JSONL ingestion, deterministic timelines, cited SDK analysis, and explicit failure handling |
-| [Multi-agent PR review team](docs/examples/review-team-walkthrough.md) | Verified locally in replay and live SDK modes; Actions success pending | Parallel isolated specialists, validated handoffs, coordinator synthesis, and human review |
+| [Multi-agent PR review team](docs/examples/review-team-walkthrough.md) | Verified locally in replay/live SDK modes and end-to-end in GitHub Actions | Parallel isolated specialists, validated handoffs, coordinator synthesis, and human review |
 
 The original five showcase components have been validated in their documented
 scenarios.
@@ -22,6 +34,11 @@ On 2026-10-15, the PR summarizer's
 [successful Actions run](https://github.com/krshearman/systems-and-solutions/actions/runs/38802036685)
 completed both analysis and publication, posting an
 [advisory COMMENT review on the test PR](https://github.com/krshearman/systems-and-solutions/pull/5#pullrequestreview-5539452380).
+The multi-agent team's separate
+[successful Actions run](https://github.com/krshearman/systems-and-solutions/actions/runs/38822130409)
+completed specialist validation and coordinator synthesis after the documented
+duplicate-finding contract correction. That workflow produces reports only;
+it does not publish a review.
 
 The showcase now includes two standalone agents, three SDK review-team role
 profiles, and a reusable ADR skill. The review team demonstrates **actual
