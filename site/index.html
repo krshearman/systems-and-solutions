@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3ec">
+  <meta name="description" content="Kendall Shearman builds practical AI workflows, reusable engineering solutions, and technical clarity. Explore working GitHub Copilot agents, skills, and SDK automations.">
+  <meta property="og:title" content="Kendall Shearman — Systems &amp; Solutions">
+  <meta property="og:description" content="From customer friction to systems that work. A portfolio of practical AI workflows and evidence-led engineering.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://krshearman.github.io/systems-and-solutions/">
+  <meta property="og:image" content="https://krshearman.github.io/systems-and-solutions/assets/kendall-shearman.webp">
+  <meta property="og:image:alt" content="Kendall Shearman">
+  <link rel="canonical" href="https://krshearman.github.io/systems-and-solutions/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/site.js" defer></script>
+  <title>Kendall Shearman — Systems &amp; Solutions</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./"><span class="monogram" aria-hidden="true">k/s</span><span>Kendall Shearman<span class="brand-subtitle">Systems &amp; solutions</span></span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>Menu <span aria-hidden="true">+</span></button>
+      <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+        <a href="#work">Selected work</a>
+        <a href="#experience">Experience</a>
+        <a href="#about">About</a>
+        <a class="nav-resume" href="resume/">Résumé <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Supportability engineer. Solutions builder.</p>
+        <h1 id="hero-title">From customer friction<br>to systems that <em>work.</em></h1>
+        <p class="hero-intro">I’m Kendall. I build AI-assisted workflows, turn technical signals into useful action, and make complex ideas easier to use.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#work">Explore the work <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="resume/">View my résumé <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="hero-note">Engineering judgment. An educator’s clarity. Human accountability.</p>
+      </div>
+      <figure class="portrait">
+        <div class="portrait-frame"><img src="assets/kendall-shearman.webp" width="800" height="803" fetchpriority="high" alt="Kendall Shearman smiling, wearing dark-framed glasses"></div>
+        <figcaption><span class="portrait-caption-line" aria-hidden="true"></span><span>Currently at GitHub<br><strong>Supportability Engineer · Copilot</strong></span></figcaption>
+      </figure>
+    </section>
+
+    <div class="expertise-strip">
+      <div class="container expertise-inner"><span>Practical AI</span><span aria-hidden="true">/</span><span>Customer reliability</span><span aria-hidden="true">/</span><span>Reusable systems</span><span aria-hidden="true">/</span><span>Technical enablement</span></div>
+    </div>
+
+    <section id="work" class="section container" aria-labelledby="work-title">
+      <div class="section-heading">
+        <div><p class="eyebrow section-number">01 / Selected work</p><h2 id="work-title">Proof, not just prompts.</h2></div>
+        <p>Working examples of scoped agents, reusable skills, and SDK automation. Source, contracts, and decisions included.</p>
+      </div>
+      <div class="work-toolbar">
+        <div class="project-filters" role="group" aria-label="Filter projects" hidden>
+          <button type="button" data-filter="all" aria-pressed="true">All work</button>
+          <button type="button" data-filter="agents" aria-pressed="false">Agents &amp; skills</button>
+          <button type="button" data-filter="automation" aria-pressed="false">SDK automation</button>
+        </div>
+        <p id="project-count" class="project-count" role="status" aria-live="polite" aria-atomic="true">5 projects</p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project project-featured" data-category="automation" aria-labelledby="team-title">
+          <div class="featured-copy">
+            <p class="project-type"><span class="tiny-square" aria-hidden="true"></span> Featured / Multi-agent orchestration</p>
+            <h3 id="team-title">Specialists. A coordinator.<br>A real handoff.</h3>
+            <p>Two isolated Copilot SDK sessions review a pull request in parallel. Only after both outputs validate does a coordinator synthesize their findings for human review.</p>
+            <div class="tags"><span>Python</span><span>Copilot SDK</span><span>GitHub Actions</span></div>
+            <p class="project-boundary">Every finding stays visible. No code edits, automatic publication, or merge approvals.</p>
+            <div class="project-links">
+              <a href="https://github.com/krshearman/systems-and-solutions/blob/main/docs/examples/review-team-walkthrough.md">Explore the walkthrough <span aria-hidden="true">↗</span></a>
+              <a href="https://github.com/krshearman/systems-and-solutions/actions/runs/38822130409">Verified Actions run <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <div class="pipeline-panel">
+            <p class="panel-label">Execution model <span>Fan-out / fan-in</span></p>
+            <ol class="pipeline" aria-label="Review team execution sequence">
+              <li class="pipeline-node"><span class="node-icon" aria-hidden="true">01</span><span>Pinned PR snapshot<small>One bounded source of evidence</small></span></li>
+              <li class="pipeline-parallel"><span class="parallel-label">Concurrent, separate contexts</span><div><span class="role-node">Architecture<small>Contracts &amp; impact</small></span><span class="role-node">Security<small>Trust boundaries</small></span></div></li>
+              <li class="pipeline-node pipeline-gate"><span class="node-icon" aria-hidden="true">✓</span><span>Validation barrier<small>Both specialists must pass</small></span></li>
+              <li class="pipeline-node"><span class="node-icon" aria-hidden="true">03</span><span>Coordinator → human review<small>All findings retained. Judgment stays human.</small></span></li>
+            </ol>
+            <p class="pipeline-footnote">Application-orchestrated SDK sessions.<br>Not native editor handoffs or independent model corroboration.</p>
+          </div>
+        </article>
+
+        <article class="project" data-category="agents" aria-labelledby="architect-title">
+          <div class="project-topline"><span class="project-index">01</span><span class="project-type">Custom agent + reusable skill</span></div>
+          <h3 id="architect-title">Architecture, with a paper trail.</h3>
+          <p>A focused architect agent composes with an ADR skill to turn a technical decision into context, credible alternatives, tradeoffs, and an explicitly Proposed record.</p>
+          <div class="tags"><span>.agent.md</span><span>SKILL.md</span><span>ADRs</span></div>
+          <details><summary>What this demonstrates</summary><p>Load-on-demand instructions, reusable templates, evidence-backed reasoning, and clear approval boundaries. Native skill activation and manual fallback are documented separately by Copilot surface.</p></details>
+          <div class="project-links"><a href="https://github.com/krshearman/systems-and-solutions/blob/main/docs/examples/architect-walkthrough.md">Walkthrough <span aria-hidden="true">↗</span></a><a href="https://github.com/krshearman/systems-and-solutions/blob/main/.github/skills/architectural-decision-record/SKILL.md">Read the skill <span aria-hidden="true">↗</span></a></div>
+        </article>
+
+        <article class="project" data-category="agents" aria-labelledby="refactor-title">
+          <div class="project-topline"><span class="project-index">02</span><span class="project-type">Bounded modernization</span></div>
+          <h3 id="refactor-title">Refactor without moving the goalposts.</h3>
+          <p>A scoped guard replaces two deprecated synthetic Python helpers while preserving behavior. Before/after fixtures, contract tests, and a syntax-tree gate define exactly what may change.</p>
+          <div class="tags"><span>Python</span><span>AST validation</span><span>Behavioral contracts</span></div>
+          <details><summary>What this demonstrates</summary><p>Enterprise-style modernization boundaries made concrete: narrow write scope, explicit invariants, actual checks, and manual escalation when a decision exceeds the agent’s remit. This is a synthetic example, not a general migration engine.</p></details>
+          <div class="project-links"><a href="https://github.com/krshearman/systems-and-solutions/blob/main/docs/examples/refactor-guard-walkthrough.md">Walkthrough <span aria-hidden="true">↗</span></a><a href="https://github.com/krshearman/systems-and-solutions/blob/main/tools/check_refactor_guard.py">Inspect the gate <span aria-hidden="true">↗</span></a></div>
+        </article>
+
+        <article class="project" data-category="automation" aria-labelledby="impact-title">
+          <div class="project-topline"><span class="project-index">03</span><span class="project-type">PR impact &amp; security</span></div>
+          <h3 id="impact-title">Make change risk reviewable.</h3>
+          <p>Immutable PR snapshots and a deterministic scoring rubric pair with cited SDK observations. Analysis is separate from explicitly authorized advisory publication.</p>
+          <div class="tags"><span>REST APIs</span><span>Copilot SDK</span><span>Least privilege</span></div>
+          <details><summary>What this demonstrates</summary><p>Bounded evidence collection, guideline-linked findings, credential separation, and publication pinned to the reviewed commit. Scores are prioritization heuristics, not vulnerability probabilities. The tool posts COMMENT reviews, never approvals.</p></details>
+          <div class="project-links"><a href="https://github.com/krshearman/systems-and-solutions/blob/main/docs/examples/pr-impact-walkthrough.md">Walkthrough <span aria-hidden="true">↗</span></a><a href="https://github.com/krshearman/systems-and-solutions/actions/runs/38802036685">Verified Actions run <span aria-hidden="true">↗</span></a></div>
+        </article>
+
+        <article class="project" data-category="automation" aria-labelledby="incident-title">
+          <div class="project-topline"><span class="project-index">04</span><span class="project-type">Incident learning</span></div>
+          <h3 id="incident-title">From raw logs to a useful first draft.</h3>
+          <p>A CLI parses timestamped text or JSONL into an immutable UTC timeline, then optionally uses the SDK to draft an evidence-linked post-mortem for executive review.</p>
+          <div class="tags"><span>Python CLI</span><span>JSONL</span><span>Source citations</span></div>
+          <details><summary>What this demonstrates</summary><p>Deterministic parsing before model analysis, explicit upload consent, source-line citations, and a clear distinction between events, hypotheses, and proposed actions. Model failures never silently become successful offline reports.</p></details>
+          <div class="project-links"><a href="https://github.com/krshearman/systems-and-solutions/blob/main/docs/examples/incident-postmortem-walkthrough.md">Walkthrough <span aria-hidden="true">↗</span></a><a href="https://github.com/krshearman/systems-and-solutions/tree/main/automation/incident_postmortem">Explore the source <span aria-hidden="true">↗</span></a></div>
+        </article>
+      </div>
+      <div class="work-footer"><p>Personal showcase examples, not production deployments or security assurances.</p><a class="text-link" href="https://github.com/krshearman/systems-and-solutions">Browse the repository <span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <section class="approach-section" aria-labelledby="approach-title">
+      <div class="container approach-grid">
+        <div><p class="eyebrow section-number">The through line</p><h2 id="approach-title">Useful AI needs<br><em>good boundaries.</em></h2><p>My approach is to make the input, responsibility, and evidence clear before asking a model to help.</p><a class="text-link" href="https://github.com/krshearman/systems-and-solutions/blob/main/docs/engineering-guidelines.md">Read the engineering principles <span aria-hidden="true">↗</span></a></div>
+        <ol class="principles">
+          <li><span aria-hidden="true">01</span><div><h3>Start with the actual problem.</h3><p>Customer pain points and technical signals should lead to useful engineering action, not automation for its own sake.</p></div></li>
+          <li><span aria-hidden="true">02</span><div><h3>Make the contract inspectable.</h3><p>Scoped tools, deterministic checks, and traceable evidence make the system easier to trust—and easier to challenge.</p></div></li>
+          <li><span aria-hidden="true">03</span><div><h3>Keep judgment human.</h3><p>Agents draft and recommend. People own acceptance, disclosure, and publication.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="experience" class="section container" aria-labelledby="experience-title">
+      <div class="section-heading"><div><p class="eyebrow section-number">02 / Experience</p><h2 id="experience-title">Close to the customer.<br>Connected to engineering.</h2></div><p>A career spanning AI supportability, enterprise reliability, integration work, and technical enablement.</p></div>
+      <div class="experience-layout">
+        <div class="experience-intro"><p class="large-note">I look for the pattern behind the ticket—and the reusable solution behind the pattern.</p><a class="text-link" href="resume/">The full résumé <span aria-hidden="true">↗</span></a></div>
+        <ol class="timeline">
+          <li><div class="timeline-meta"><span class="company">GitHub</span><span class="date">Feb 2026 – present</span></div><h3>Supportability Engineer · Copilot</h3><p>Connect customers, Support, Engineering, Product, and Design to resolve high-impact issues. Build agentic workflows, custom Copilot agents and skills, executive KQL/ADX dashboards, and internal issue-routing tooling. Coordinate release enablement, critical feedback escalation, and recurring triage and executive communication.</p></li>
+          <li><div class="timeline-meta"><span class="company">GitHub</span><span class="date">Dec 2024 – Feb 2026</span></div><h3>Customer Reliability Engineer III</h3><p>Embedded with Premium Plus enterprise clients for consultative support, troubleshooting, and runbooks. Led an AI adoption initiative and built UAT modules and tooling for the team’s application.</p></li>
+          <li><div class="timeline-meta"><span class="company">Apollo GraphQL</span><span class="date">Apr – Dec 2024</span></div><h3>Senior Support Engineer</h3><p>Built Kotlin, React, and GraphQL integration code for a Zendesk-to-Jira Service Management migration adopted organization-wide. Designed a reusable Confluence knowledge-base architecture.</p></li>
+          <li><div class="timeline-meta"><span class="company">LogicMonitor</span><span class="date">Nov 2021 – Apr 2024</span></div><h3>Senior / Premier Support Engineer</h3><p>Served as a primary technical contact for enterprise customers, turned one-off fixes into repeatable playbooks, and developed training for new hires and existing teams.</p></li>
+          <li><div class="timeline-meta"><span class="company">Wipro @ Facebook</span><span class="date">Jul 2020 – Nov 2021</span></div><h3>Test Engineer / Senior Project Engineer</h3><p>Built onboarding documentation, Markdown wiki resources, quality-assurance practices, and training assets adopted across teams.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="about" class="about-section" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div><p class="eyebrow section-number">03 / A little context</p><h2 id="about-title">An engineer’s toolkit.<br>An educator’s perspective.</h2><p>I was a university faculty member teaching technical writing and English composition before moving into engineering roles. That background still shapes how I work: find the essential idea, understand the audience, and make the next step clear.</p><p>Today I bring that same clarity to AI workflows, customer reliability, documentation, and enablement.</p><div class="education"><span>Education</span><p>AAS, Computer Programming · Austin Community College<br>MA, English · National University<br>BA, English · University of Texas at Austin</p></div></div>
+        <div class="toolkit"><h3>The toolkit</h3><dl><div><dt>AI &amp; automation</dt><dd>GitHub Copilot, agent design, prompt engineering, reusable skills, CLI workflows</dd></div><div><dt>Engineering</dt><dd>Python, JavaScript, Java / Kotlin, HTML / CSS, GraphQL, REST APIs</dd></div><div><dt>Cloud &amp; operations</dt><dd>Git / GitHub, GitHub Actions, AWS, Kubernetes, KQL / Azure Data Explorer</dd></div><div><dt>Enablement</dt><dd>Technical writing, curriculum development, instructional design, training delivery</dd></div></dl></div>
+      </div>
+      <div class="container credentials"><p class="eyebrow">Certifications</p><ul aria-label="Professional certifications"><li>GitHub Copilot</li><li>GitHub Actions</li><li>GitHub Administration</li><li>GitHub Advanced Security (GHAS)</li><li>GitHub Foundations</li><li>AWS Cloud Practitioner</li><li>KCNA</li><li>CompTIA Linux+</li><li>CAPM</li></ul></div>
+    </section>
+
+    <section class="section container" aria-labelledby="try-title">
+      <div class="try-panel"><div><p class="eyebrow">Try it yourself</p><h2 id="try-title">The work is inspectable.</h2><p>Clone the repository and replay the review team without credentials or model calls. These are authored synthetic outputs running through the real coordination graph, not live model responses.</p><a class="text-link" href="https://github.com/krshearman/systems-and-solutions/blob/main/docs/examples/review-team-walkthrough.md">Setup &amp; live SDK instructions <span aria-hidden="true">↗</span></a></div><div class="code-panel"><div class="code-toolbar"><span>From the repository root · Python 3.11+</span><button id="copy-command" type="button" hidden>Copy command</button></div><pre tabindex="0" aria-label="Offline review-team replay command"><code id="replay-command">mkdir -p reports
+python3 -B -m automation.review_team \
+  --fixture examples/pr_review/pull_request.json \
+  --replay examples/review_team/replay.json \
+  --output reports/review-team.json</code></pre><p id="copy-status" class="copy-status" role="status" aria-live="polite"></p></div></div>
+    </section>
+
+    <section id="contact" class="contact-section" aria-labelledby="contact-title"><div class="container contact-inner"><div><p class="eyebrow">Let’s connect</p><h2 id="contact-title">Good systems start<br>with a conversation.</h2><a class="contact-email" href="mailto:kendallshearman@gmail.com">kendallshearman@gmail.com <span aria-hidden="true">↗</span></a></div><div class="contact-links"><a href="https://www.linkedin.com/in/krshearman/">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/krshearman">GitHub <span aria-hidden="true">↗</span></a><a href="resume/">Read the résumé <span aria-hidden="true">↗</span></a><a href="assets/kendall-shearman-resume.pdf" download>Download résumé PDF <span aria-hidden="true">↓</span></a></div></div></section>
+  </main>
+
+  <footer class="site-footer container"><p>© 2026 Kendall Shearman</p><p>A personal portfolio. Not an official GitHub product or endorsement.</p><a href="#main">Back to top <span aria-hidden="true">↑</span></a></footer>
+</body>
+</html>

@@ -216,9 +216,12 @@ architecture findings before coordinator execution. The uniqueness rule had
 not been communicated in the model instructions/schema; those now match the
 existing validator, with regression coverage for the one-line case and strict
 duplicate rejection. The same public PR completed locally with the updated
-contract. **A successful remote run with this fix remains pending.** Model
-noncompliance can still fail validation; this does not guarantee every future
-response is valid or semantically correct.
+contract. A subsequent
+[successful Actions run](https://github.com/krshearman/systems-and-solutions/actions/runs/38822130409)
+completed specialist validation, coordinator synthesis, and report generation.
+The maintainer confirmed the generated review report. Model noncompliance can
+still fail validation; this does not guarantee every future response is valid
+or semantically correct.
 The existing single-agent workflow's successful publication is not a team run.
 
 The application explicitly loads three `.agent.md` instruction bodies. It does
