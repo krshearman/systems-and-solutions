@@ -40,7 +40,7 @@ They are not a full accessibility audit or a substitute for inspecting a PDF.
 Before publishing layout or interaction changes, check:
 
 - Desktop and narrow mobile layouts, keyboard focus, and navigation Escape handling.
-- All/agents/automation filters showing 5/2/3 projects and announcing the count.
+- All/agents/automation filters showing 6/2/4 projects and announcing the count.
 - Command copying, including visible feedback when clipboard access fails.
 - The HTML résumé and PDF download from the deployed project prefix.
 - Useful content and navigation with JavaScript disabled, reduced motion, and zoom.
@@ -81,6 +81,11 @@ Project cards link to source walkthroughs and verified execution records;
 do not turn a replay or an authored example into a claim of live execution,
 model accuracy, or production adoption. Revisit evidence links as the showcase
 changes. No credential badge or verification URL is invented.
+
+The support-brief card links to a runnable local example. Its deterministic
+checks are separate from live Copilot verification, which has not yet been
+recorded for this addition. The brief stops before issue creation and adds no
+browser model calls, deployment credentials, or new public assets.
 
 The public PDF is
 [`site/assets/kendall-shearman-resume.pdf`](../site/assets/kendall-shearman-resume.pdf).

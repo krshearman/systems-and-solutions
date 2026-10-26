@@ -1,0 +1,37 @@
+{
+  "signals": [
+    {
+      "id": "S01",
+      "title": "Synthetic export remains queued after reconnect",
+      "area": "Export queue",
+      "observed": "In a fictional demo service, an export submitted while disconnected still displayed queued after reconnect. Refreshing the page showed it completed.",
+      "expected": "The displayed export state updates after reconnect without a manual refresh.",
+      "reproduction": [
+        "Open the fictional export dashboard and disconnect its demo transport.",
+        "Submit an export, reconnect, and compare the displayed state before and after refresh."
+      ],
+      "environment": "Synthetic web client 0.4, simulated reconnect; browser version not recorded.",
+      "reported_impact": "One synthetic test session needed a manual refresh. No customer or business impact is established."
+    },
+    {
+      "id": "S02",
+      "title": "Synthetic completed export still appears queued",
+      "area": "Export queue",
+      "observed": "A second authored report describes a queued label after a simulated reconnect, with a completed result visible after refresh. No trace is supplied to link it to S01.",
+      "expected": "",
+      "reproduction": [],
+      "environment": "",
+      "reported_impact": ""
+    },
+    {
+      "id": "S03",
+      "title": "Synthetic download fails despite completed state",
+      "area": "Export download",
+      "observed": "The demo dashboard displayed completed before a simulated download returned 404. No reconnect was reported. This may be a separate problem, not another instance of the queued-label symptom.",
+      "expected": "A completed synthetic export can be downloaded.",
+      "reproduction": [],
+      "environment": "Synthetic web client 0.4; result retention configuration unknown.",
+      "reported_impact": ""
+    }
+  ]
+}
