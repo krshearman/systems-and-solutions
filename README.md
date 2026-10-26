@@ -27,6 +27,7 @@ accessibility, and safe résumé updates.
 | [PR impact and security summarizer](docs/examples/pr-impact-walkthrough.md) | Verified end-to-end in GitHub Actions, including advisory review publication | Deterministic risk scoring, cited SDK observations, and opt-in advisory reviews |
 | [Incident post-mortem CLI](docs/examples/incident-postmortem-walkthrough.md) | Verified locally in offline and SDK modes | Text/JSONL ingestion, deterministic timelines, cited SDK analysis, and explicit failure handling |
 | [Multi-agent PR review team](docs/examples/review-team-walkthrough.md) | Verified locally in replay/live SDK modes and end-to-end in GitHub Actions | Parallel isolated specialists, validated handoffs, coordinator synthesis, and human review |
+| [Support signal to engineering brief](docs/examples/support-brief-walkthrough.md) | Local deterministic and mocked SDK checks; live SDK run not yet recorded | Preserved support evidence, reproduction gaps, cited synthesis, and human issue-creation checkpoint |
 
 The original five showcase components have been validated in their documented
 scenarios.
@@ -47,6 +48,23 @@ sessions run concurrently, then a third session consumes their validated results
 Transitions between the original architect and refactor-guard agents remain
 manual. This is not a claim of native handoffs or identical behavior across
 Copilot surfaces.
+
+## Draft a support-to-engineering brief
+
+Turn synthetic support reports into an unapproved engineering brief, without
+dependencies or a model call:
+
+```sh
+mkdir -p reports
+python3 -B -m automation.support_brief \
+  --input examples/support_brief/signals.json \
+  --output reports/support-brief.md \
+  --offline
+```
+
+The [support walkthrough](docs/examples/support-brief-walkthrough.md) covers
+opt-in Copilot synthesis, input limits, unknowns, and failure handling.
+No issue is created automatically.
 
 ## Try the architect agent
 

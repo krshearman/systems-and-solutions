@@ -94,6 +94,14 @@ orchestration in Actions, not native agent discovery or review correctness.
 See the [walkthrough](examples/review-team-walkthrough.md) for commands,
 failure behavior, costs, and the distinction between replay and live sessions.
 
+## Support-brief SDK scope
+
+The support-brief Python tool uses the shared isolated SDK transport with
+explicit input-upload consent and no agent/skill discovery. Its offline and
+mocked SDK checks are not evidence of a completed live SDK call. It writes an
+unapproved local brief and has no issue-creation or publication capability.
+See the [support brief walkthrough](examples/support-brief-walkthrough.md).
+
 ## Prerequisites
 
 Use a Copilot-enabled account with access to the chosen surface. Install and

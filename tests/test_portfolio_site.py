@@ -182,14 +182,15 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual((image["width"], image["height"]), ("800", "803"))
         self.assertLess((SITE / image["src"]).stat().st_size, 200_000)
 
-    def test_all_five_projects_are_visible_without_javascript(self):
+    def test_all_six_projects_are_visible_without_javascript(self):
         projects = [attrs for _, attrs in self.home.elements if "data-category" in attrs]
-        self.assertEqual(len(projects), 5)
+        self.assertEqual(len(projects), 6)
         self.assertEqual(sum(attrs["data-category"] == "agents" for attrs in projects), 2)
-        self.assertEqual(sum(attrs["data-category"] == "automation" for attrs in projects), 3)
+        self.assertEqual(sum(attrs["data-category"] == "automation" for attrs in projects), 4)
         self.assertTrue(all("hidden" not in attrs for attrs in projects))
         content = self.home.path.read_text()
-        for title in ("ADR", "Refactor", "post-mortem", "PR impact", "coordinator"):
+        self.assertIn(">6 projects</p>", content)
+        for title in ("ADR", "Refactor", "post-mortem", "PR impact", "coordinator", "Support signal"):
             self.assertIn(title.lower(), content.lower())
 
     def test_local_only_scripts_and_no_inline_execution(self):
